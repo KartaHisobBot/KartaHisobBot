@@ -1,5 +1,7 @@
 
 import os
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 import sqlite3
 import asyncio
 from datetime import datetime
@@ -314,13 +316,27 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         text, markup = make_board(chat_id)
         await q.message.reply_text(text, reply_markup=markup)
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is running")
 
+    def log_message(self, format, *args):
+        pass
+
+
+def start_web_server():
+    port = int(os.environ.get("PORT", "10000"))
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    server.serve_forever()
 
 def main():
     if not TOKEN:
         raise RuntimeError("Hosting sozlamalarida BOT_TOKEN kiritilmagan.")
 
     setup()
+        threading.Thread(target=start_web_server, daemon=True).start()
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("newgame", newgame))
