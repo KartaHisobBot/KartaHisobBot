@@ -1,6 +1,7 @@
 
 import os
 import sqlite3
+import asyncio
 from datetime import datetime
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
@@ -327,6 +328,7 @@ def main():
     app.add_handler(CommandHandler("score", score))
     app.add_handler(CommandHandler("history", history))
     app.add_handler(CallbackQueryHandler(buttons))
+    asyncio.set_event_loop(asyncio.new_event_loop())
     app.run_polling()
 
 
