@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>KartaHisob</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 16px;
+      font-family: Arial, sans-serif;
+      background: var(--tg-theme-bg-color, #101827);
+      color: var(--tg-theme-text-color, #f5f7fb);
+    }
+    .header { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 48px; height: 48px; border-radius: 15px;
+      display: grid; place-items: center;
+      background: #2478f2; font-size: 25px;
+    }
+    h1 { margin: 0; font-size: 23px; }
+    .muted { color: var(--tg-theme-hint-color, #9aa8bd); }
+    .panel {
+      margin-top: 22px; padding: 16px; border-radius: 18px;
+      background: var(--tg-theme-secondary-bg-color, #1c2739);
+    }
+    .players { display: grid; gap: 10px; }
+    .player {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px; border-radius: 12px;
+      background: var(--tg-theme-bg-color, #101827);
+    }
+    .score { font-size: 22px; font-weight: 700; }
+    input {
+      width: 74px; padding: 10px; border: 1px solid #52627a;
+      border-radius: 10px; font-size: 18px; text-align: center;
+      color: var(--tg-theme-text-color, #fff);
+      background: var(--tg-theme-bg-color, #101827);
+    }
+    button {
+      width: 100%; border: 0; border-radius: 13px;
+      padding: 15px; margin-top: 14px;
+      background: #2478f2; color: white;
+      font-size: 16px; font-weight: 700;
+    }
+    #status { margin-top: 14px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🃏</div>
+    <div>
+      <h1>KartaHisob</h1>
+      <div class="muted">O‘yin hisoblari</div>
+    </div>
+  </header>
+
+  <section class="panel">
+    <h2>O‘yinchilar</h2>
+    <p class="muted">
+      Haqiqiy hisoblar serverga ulangandan keyin shu yerda ko‘rinadi.
+    </p>
+    <div id="players" class="players">
+      <div class="player">O‘yin ma’lumotlari kutilmoqda…</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Yangi raund</h2>
+    <p class="muted">Har bir faol o‘yinchi uchun ball kiriting.</p>
+    <div id="roundInputs" class="players"></div>
+    <button id="saveButton">Raundni saqlash</button>
+    <div id="status" class="muted">
+      Hozircha serverga ulanmagan. Ballar hali saqlanmaydi.
+    </div>
+  </section>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    tg?.ready();
+    tg?.expand();
+
+    document.getElementById("saveButton").addEventListener("click", () => {
+      document.getElementById("status").textContent =
+        "Mini App oynasi tayyor. Keyingi bosqichda hisoblar serverga ulanadi.";
+    });
+  </script>
+</body>
+</html>
